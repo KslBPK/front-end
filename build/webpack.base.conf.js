@@ -40,6 +40,7 @@ module.exports = {
   },
   module: {
     rules: [
+       // 可以把下面一行注释掉，可以不让终端报错
       ...(config.dev.useEslint ? [createLintingRule()] : []),
       {
         test: /\.vue$/,
