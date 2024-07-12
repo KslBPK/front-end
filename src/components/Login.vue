@@ -24,6 +24,7 @@
     name: 'Login',
     data () {
       return {
+        //
         //添加表单中的数据对象
         loginform:{
           username: '',
