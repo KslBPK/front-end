@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
     <router-view/>
   </div>
 </template>
@@ -12,6 +11,8 @@ export default {
 </script>
 
 <style>
+/* 引入CSS-reset.css重置样式 */
+@import url('./assets/css/reset.css');
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
