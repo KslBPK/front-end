@@ -12,11 +12,13 @@ export default new Router({
       // 访问根路径时跳转到登录界面
       path: '/',
       redirect: '/login',
+      hidden: true,
     },
     {
       // 这是原先配置路由的方法，在上面写引入语法
       path: '*',
       name: 'NotFound',
+      hidden: true,
       component: NotFound
     },
     {
@@ -24,6 +26,7 @@ export default new Router({
       // 3.使用异步方法（常用）
       path: '/login',
       name: 'Login',
+      hidden: true,
       // component: Login
       component: resolve => require((['@/components/Login']),resolve)
     },
@@ -44,16 +47,16 @@ export default new Router({
       // 添加子页面路由
       children: [
         {
-          path: 'home/student',
+          path: '/home/student',
           name: '学生列表',
           component: () => import('@/components/student/StudentList'),
         },
         {
-          path: 'home/work',
+          path: '/home/work',
           name: '作业列表',
           component: () => import('@/components/student/WorkList'),
         },{
-          path: 'home/info',
+          path: '/home/info',
           name: '信息列表',
           component: () => import('@/components/student/InfoList'),
         },
