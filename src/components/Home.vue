@@ -22,6 +22,7 @@
             <!-- item和index分别是当前迭代项的值和索引 -->
             <!-- :key="index" 则是告诉 Vue 使用这个索引作为每个生成元素的唯一标识符。 -->
             <!-- key要和v-for放在同一层上 -->
+            <!-- v-if判断有没有hidden属性，没有就显示 -->
               <div  v-for="(menuitem, index) in menus" :key="index" v-if="!menuitem.hidden">
                 <el-submenu :index="index + ''">
                   <template slot="title">
