@@ -77,7 +77,7 @@
           //验证输入内容是否通过制定的规则
           this.$refs[loginvalue].validate((valid) => {
             if(valid){
-              this.$router.push('/')
+              this.$router.push('/home')
             }else{
               console.error(this.form)
             }
