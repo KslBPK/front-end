@@ -20,7 +20,7 @@
   <!-- Add "scoped" attribute to limit CSS to this component only -->
   <style scoped>
   .header .el-header{
-    background: #409eff;
+    background: #545c64;
     color: #ffffff;
     line-height: 60px;
     display: flex;

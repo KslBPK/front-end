@@ -1,6 +1,5 @@
 <template>
     <div class="worklist">
-      作业列表
     </div>
   </template>
   
@@ -10,7 +9,7 @@
     data () {
       return {
       }
-    }
+    },
   }
   </script>
   
