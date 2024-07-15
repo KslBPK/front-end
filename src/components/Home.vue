@@ -4,12 +4,14 @@
     <Header></Header>
     <!-- 页面的内容 -->
     <el-container class="content">
-        <!-- 侧边菜单栏 -->
-        <el-aside>
-          <Menu></Menu>
-        </el-aside>
+      <!-- 侧边菜单栏 -->
+      <el-aside>
+        <Menu></Menu>
+      </el-aside>
       <el-main>
-        <div>
+        <!-- 面包屑：显示当前页面的路径，快速返回之前的任意页面。 -->
+        <BreadCrumb></BreadCrumb>
+        <div class="cont">
           <!-- 路由出口（没有这个东西看不到界面） -->
           <router-view></router-view>
         </div>
@@ -23,18 +25,24 @@
 import Header from './common/Header'
 import Footer from './common/Footer'
 import Menu from './common/Menu'
+import BreadCrumb from './common/BreadCrumb';
 import router from '../router';
+
 export default {
   components:{
       Header : Header,
       Footer : Footer,
       Menu: Menu,
+      BreadCrumb:BreadCrumb,
   },
   name: 'Home',
   data () {
     return {
     }
   },
+  created(){
+
+  }
 }
 </script>
 
@@ -42,8 +50,6 @@ export default {
 <style scoped>
 .home .el-aside{
   height: 100%;
-  width: 200px;
-  background-color: aqua;
 }
 
 .home .content{
@@ -51,5 +57,9 @@ export default {
   width: 100%;
   top: 60px;
   bottom: 0;
+}
+
+.home .content .cont{
+  margin: 20px 0;
 }
 </style>

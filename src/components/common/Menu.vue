@@ -3,7 +3,8 @@
       <!-- @open和@close展开和关闭的两个方法 -->
       <!-- active-text-color是选中的菜单中字体颜色改变 -->
       <!-- router点击每个菜单跳转到相应的界面 -->
-      <el-menu default-active="2" 
+      <!-- default-active	当前激活菜单的 index -->
+      <el-menu :default-active="activePath" 
                class="el-menu-vertical-demo" 
                @open="handleOpen" 
                @close="handleClose" 
@@ -42,14 +43,18 @@
     data () {
       return {
         // 创建数组menus
-        menus: []
+        menus: [],
+        activePath:''
       }
     },
     created(){
-      console.log(this.$router.options.routes)
+      // console.log(this.$router.options.routes)
       // 使用menus数组，赋值路由信息
       // 然后在上面遍历数组
       this.menus = [...this.$router.options.routes]
+      // console.log(this.$router.currentRoute.path)
+      //获取路由地址
+      this.activePath = this.$router.currentRoute.path
     },
     methods: {
       handleOpen(key, keyPath) {
@@ -64,8 +69,13 @@
   
   <!-- Add "scoped" attribute to limit CSS to this component only -->
   <style scoped>
+.menu{
+  height: 100%;
+  width:  100%;
+}
+
 .menu .el-menu{
-  height: 100px;
+  height: 100%;
 }
 
 .menu .el-submenu .el-meun-i{
