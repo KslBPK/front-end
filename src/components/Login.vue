@@ -76,8 +76,29 @@
 
           //验证输入内容是否通过制定的规则
           this.$refs[loginvalue].validate((valid) => {
+            // 如果通过则执行：
             if(valid){
-              this.$router.push('/home')
+              console.log(this.loginvalue)
+              // 请求地址
+              this.axios.post('http://rap2api.taobao.org/app/mock/319762/login',this.loginvalue)
+              // 把回调函数的响应数据进行解析
+              .then( res => {
+                // 对后端返回的status的值进行判断
+                if (res.data.status === 200){
+                  // 如果值判断正确，执行一下操作
+                  // 用localStorage储存后端返回的需要的值
+                  localStorage.setItem("username",res.data.username)
+                  // 跳转到home界面
+                  this.$router.push('/home')
+                  // 页面弹出消息提示登录成功
+                  this.$message({message: res.data.message,type: 'success',duration: 1500});
+                  console.log(res)
+                }
+              })
+              .catch(err => {
+                console.log(err)
+              })
+              // 如果不通过则执行：
             }else{
               console.error(this.form)
             }
