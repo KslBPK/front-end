@@ -2,7 +2,7 @@
     <div class='header'>
         <el-header>
             <div class='title'>后台管理系统</div>
-            <div>KslBPK</div>
+            <div>{{name}}</div>
         </el-header>
     </div>
   </template>
@@ -12,7 +12,12 @@
     name: 'Header',
     data () {
       return {
+        name: ''
       }
+    },
+    created(){
+      // 将存储在localStorage的值取出
+      this.name = localStorage.getItem("username")
     }
   }
   </script>
