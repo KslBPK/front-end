@@ -153,9 +153,10 @@
         this.$refs[form].validate((valid) =>{
           if(valid){
             if(this.state){
-            //调用添加接口
-            //假后端,让新增的信息显示在表格中
+            // 调用添加接口
+            // 假后端,让新增的信息显示在表格中
             this.tableData.push(this.form)
+
             console.log(this.form)
             this.addStu = false
             this.form = {
@@ -168,8 +169,23 @@
               address: '',
               phone: '',
             }
+              // 调用添加接口
+              this.service.post('/students', this.form)
+              .then(res => {
+                console.log(res)
+                this.service.get('/students')
+                .then(res => {
+                  console.log(res)
+                })
+                .catch(err => {
+                  console.log(err)
+                })
+              })
+              .catch(err => {
+                console.error(err)
+              })
             }else{
-              //调用修改接口
+              // 调用修改接口
             }
           }else{
             console.error(this.form)

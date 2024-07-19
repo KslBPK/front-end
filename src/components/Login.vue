@@ -72,7 +72,7 @@
       //登录
       login(loginvalue) {
           //打印表单中的用户名和密码信息到页面请求中
-          // console.log(this.form)
+          // console.log(this.loginvalue)
 
           //验证输入内容是否通过制定的规则
           this.$refs[loginvalue].validate((valid) => {
@@ -80,7 +80,10 @@
             if(valid){
               console.log(this.loginvalue)
               // 请求地址
+              // 使用axios请求
               this.axios.post('http://rap2api.taobao.org/app/mock/319762/login',this.loginvalue)
+              // 使用service请求
+              // this.service.post('/login',this.loginvalue)
               // 把回调函数的响应数据进行解析
               .then( res => {
                 // 对后端返回的status的值进行判断

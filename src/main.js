@@ -8,11 +8,14 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 //引用axios
 import axios from 'axios'
+import service from './service'
 
 Vue.use(ElementUI)
 Vue.config.productionTip = false
 // 挂载到原型，可在全局使用
 Vue.prototype.axios = axios
+// service挂载到原型，可在全局使用
+Vue.prototype.service = service
 
 /* eslint-disable no-new */
 new Vue({
