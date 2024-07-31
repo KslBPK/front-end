@@ -9,8 +9,8 @@
           <el-button type="primary" @click="find">查询</el-button>
         </el-form-item>
       </el-form>
-       <!-- 表格 -->
-       <el-table :data="tableData" border style="width: 100%">
+      <!-- 表格 -->
+      <el-table :data="tableData" border style="width: 100%">
         <el-table-column prop="jobName" label="作业名称" align="center"></el-table-column>
         <el-table-column prop="completedNumber" label="完成人数" align="center"></el-table-column>
         <el-table-column prop="uncompletedNumber" label="未完成人数" align="center"></el-table-column>
@@ -20,6 +20,20 @@
         <el-table-column prop="passNumber" label="及格人数" align="center"></el-table-column>
         <el-table-column prop="goodNumber" label="优秀人数" align="center"></el-table-column>
       </el-table>
+      <!-- 分页 -->
+      <!-- total分页数据的总个数 -->
+      <!-- currentPage当前的页数 -->
+      <!-- pageSize每一页的显示条数 -->
+      <el-pagination
+        background
+        @size-change="hanldSizeChange"
+        @current-change="hanldCurrentChange"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total"
+        :current-page="currentPage"
+        :page-size="pageSize"
+        :page-sizes="[5, 10, 20, 30]">
+      </el-pagination>
     </div>
   </template>
   
