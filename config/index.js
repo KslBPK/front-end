@@ -17,6 +17,7 @@ module.exports = {
         target: "https://demo.crudapi.cn/api/business/",
         // 允许跨域
         changeOrigin: true,
+        secure: false,
         pathRewrite: {
           '^/api': ''
         }

@@ -14,6 +14,9 @@
         <el-form-item>
           <el-button type="primary" @click="find">查询</el-button>
         </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="reset">重置</el-button>
+        </el-form-item>
       </el-form>
       <!-- 表格 -->
       <el-table :data="tableData" border style="width: 100%">
@@ -41,8 +44,8 @@
             <el-input v-model="form.name" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item label="性别" :label-width="formLabelWidth" prop="sex">
-            <el-radio v-model="form.sex" label="1">男</el-radio>
-            <el-radio v-model="form.sex" label="2">女</el-radio>
+            <el-radio v-model="form.sex" label="男">男</el-radio>
+            <el-radio v-model="form.sex" label="女">女</el-radio>
           </el-form-item>
           <el-form-item label="年龄" :label-width="formLabelWidth" prop="age">
             <el-input v-model.number="form.age" autocomplete="off"></el-input>
@@ -52,21 +55,21 @@
           </el-form-item>
           <el-form-item label="班级" :label-width="formLabelWidth" prop="class">
             <el-select v-model="form.class" placeholder="请选择班级">
-              <el-option label="一班" value="1"></el-option>
-              <el-option label="二班" value="2"></el-option>
-              <el-option label="三班" value="3"></el-option>
-              <el-option label="四班" value="4"></el-option>
-              <el-option label="五班" value="5"></el-option>
-              <el-option label="六班" value="6"></el-option>
-              <el-option label="七班" value="7"></el-option>
-              <el-option label="八班" value="8"></el-option>
+              <el-option label="一班" value="一班"></el-option>
+              <el-option label="二班" value="二班"></el-option>
+              <el-option label="三班" value="三班"></el-option>
+              <el-option label="四班" value="四班"></el-option>
+              <el-option label="五班" value="五班"></el-option>
+              <el-option label="六班" value="六班"></el-option>
+              <el-option label="七班" value="七班"></el-option>
+              <el-option label="八班" value="八班"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="状态" :label-width="formLabelWidth" prop="state">
             <el-select v-model="form.state" placeholder="请选择状态">
-              <el-option label="已入学" value="1"></el-option>
-              <el-option label="未入学" value="2"></el-option>
-              <el-option label="休学中" value="3"></el-option>
+              <el-option label="已入学" value="已入学"></el-option>
+              <el-option label="未入学" value="未入学"></el-option>
+              <el-option label="休学中" value="休学中"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="地址" :label-width="formLabelWidth" prop="address">
@@ -104,8 +107,8 @@
           sex: '1',
           age: '',
           number: '',
-          class: '1',
-          state: '1',
+          class: '',
+          state: '',
           address: '',
           phone: '',
         },
@@ -124,7 +127,26 @@
         },
       }
     },
+    created() {
+      this.getData()
+    },
     methods: {
+      // 获取数据
+      // 显示后端的表格数据
+      getData(){
+        this.service.get('/students')
+        .then(res => {
+          if (res.status === 200){
+           console.log(res)
+          this.tableData = [...res.data] 
+          }else{
+          }   
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      },
+
       // 修改
       updateInfo(row) {
         console.log(row)
@@ -133,59 +155,116 @@
         // 显示弹窗
         this.addStu = true
         // 对应的每一项数据内容展现到表单里
-        this.form = row
+        this.form = {...row}
       },
+
       // 删除
       del(row) {
+        // 点击删除按钮，弹出确认删除的弹窗
+        this.$alert('你确定要删除该数据吗？', '提示', {
+          confirmButtonText: '确定',
+          callback: () => {
+            this.service.delete('/students/' + row.id)
+            .then(res => {
+              console.log(res)
+              if (res.status === 204){
+                this.$message({message: '删除数据成功',type: 'success',duration: 1500});
+                // 删除后返回值为204，那么就重新刷新表格
+                this.getData()
+              }
+            })
+            .catch(err => {
+                console.error(err)
+            })
+          }
+        });
         console.log(row)
+        
       },
+
+      // 查询
+      find() {
+        // formInline是查询时要输入的内容
+        console.log(this.formInline)
+        this.service.get('/students', {
+          params: this.formInline
+        })
+        .then(res => {
+          console.log(res)
+          if (res.status === 200){
+            this.tableData = [...res.data]
+          }
+        })
+        .catch(err => {
+          console.error(err)
+        })
+      },
+
+      // 重置
+      reset(){
+        this.formInline = {}
+        this.getData()
+      },
+
       // 新增
       addStudent() {
         this.addStu = true
       },
-      // 查询
-      find() {
-        console.log(this.formInline)
-      },
+
       // 确定新增
       sure(form) {
         // 对表单进行验证
         this.$refs[form].validate((valid) =>{
           if(valid){
-            if(this.state){
             // 调用添加接口
             // 假后端,让新增的信息显示在表格中
-            this.tableData.push(this.form)
-
-            console.log(this.form)
-            this.addStu = false
-            this.form = {
-              name: '',
-              sex: '1',
-              age: '',
-              number: '',
-              class: '1',
-              state: '1',
-              address: '',
-              phone: '',
-            }
+            // this.tableData.push(this.form)
+            // console.log(this.form)
+            // this.addStu = false
+            // this.form = {
+            //   name: '',
+            //   sex: '1',
+            //   age: '',
+            //   number: '',
+            //   class: '1',
+            //   state: '1',
+            //   address: '',
+            //   phone: '',
+            // }
+            if(this.state){
               // 调用添加接口
               this.service.post('/students', this.form)
               .then(res => {
-                console.log(res)
-                this.service.get('/students')
-                .then(res => {
-                  console.log(res)
-                })
-                .catch(err => {
-                  console.log(err)
-                })
+                // console.log(res) 
+                if(res.status === 201){
+                  // 新增完后关闭弹窗
+                  this.addStu = false
+                  // 对整个表单进行重置
+                  this.$refs[form].resetFields()
+                  this.$message({message: '新增数据成功',type: 'success',duration: 1500});
+                  this.getData()
+                }
               })
               .catch(err => {
                 console.error(err)
               })
             }else{
               // 调用修改接口
+              // 删除创建时间
+              delete this.form.createdDate
+              // 删除最后修改时间
+              delete this.form,lastModifiedDate
+              console.log(this.form.id)
+              
+              this.service.patch('/students/' + this.form.id,this.form)
+              .then(res => {
+                this.addStu = false
+                this.$message({message: '修改数据成功',type: 'success',duration: 1500});
+                this.getData()
+              })
+              .catch(err => {
+                console.error(err)
+              })
             }
           }else{
             console.error(this.form)
