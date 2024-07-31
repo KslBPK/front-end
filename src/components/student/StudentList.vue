@@ -38,6 +38,7 @@
         </el-table-column>
       </el-table>
       <!-- 分页 -->
+      <!-- 这里用的是前端分页，在作业列表中使用的是后端分页 -->
       <!-- total分页数据的总个数 -->
       <!-- currentPage当前的页数 -->
       <!-- pageSize每一页的显示条数 -->
@@ -220,7 +221,7 @@
             }
           })
           .catch(err => {
-            console.log(err)
+            console.error(err)
           })
         })
         .catch(err => {

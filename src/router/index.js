@@ -55,10 +55,16 @@ export default new Router({
           path: '/home/work',
           name: '作业列表',
           component: () => import('@/components/student/WorkList'),
-        },{
+        },
+        {
           path: '/home/info',
           name: '信息列表',
           component: () => import('@/components/student/InfoList'),
+        },
+        {
+          path: '/home/attend',
+          name: '考勤列表',
+          component: () => import('@/components/student/AttendList'),
         },
       ]
     },
