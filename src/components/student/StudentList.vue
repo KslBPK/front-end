@@ -53,7 +53,7 @@
         :page-sizes="[5, 10, 20, 30]">
       </el-pagination>
       <!-- 添加信息和修改信息弹窗 -->
-      <!-- :visible.sync="dialogFormVisible"控制弹窗的显示和隐藏 -->
+      <!-- :visible.sync="addStu"控制弹窗的显示和隐藏 -->
       <!-- :title="state ? '添加信息' : '修改信息'"  动态题目，如果state为true就显示添加信息，如果为false那就显示修改信息 -->
       <el-dialog :title="state ? '添加信息' : '修改信息'" :visible.sync="addStu"  width="500px">
         <el-form :model="form" :rules="formrules" ref="form">
@@ -130,16 +130,16 @@
 
         // 验证规则
         formrules: {
-          name: [{required: true, message: "请输入姓名",}],
+          name: [{required: true, message: "请输入姓名",trigger: 'blur'}],
           sex: [{required: true,}],
-          age: [{required: true, message: "请输入年龄",},
-                {type: 'number', message:"年龄必须是数字值"}],
-          number: [{required: true, message: "请输入姓名",},
-                {type: 'number', message:"学号必须是数字值"}],
+          age: [{required: true, message: "请输入年龄",trigger: 'blur'},
+                {type: 'number', message:"年龄必须是数字值",trigger: 'blur'}],
+          number: [{required: true, message: "请输入姓名",trigger: 'blur'},
+                {type: 'number', message:"学号必须是数字值",trigger: 'blur'}],
           class: [{required: true, message: "请选择班级",}],
           state: [{required: true, message: "请选择状态",}],
-          address: [{required: true, message: "请输入地址",}],
-          phone: [{required: true, message: "请输入联系方式",}],
+          address: [{required: true, message: "请输入地址",trigger: 'blur'}],
+          phone: [{required: true, message: "请输入联系方式",trigger: 'blur'}],
         },
 
         //分页数据
@@ -260,8 +260,7 @@
             })
           }
         });
-        console.log(row)
-        
+        console.log(row) 
       },
 
       // 查询
@@ -290,18 +289,35 @@
 
       // 新增
       addStudent() {
+        // 改变title为添加信息
+        this.state= true
+        // 显示弹窗
         this.addStu = true
+        // 重置表单数据
+        this.form = { 
+            name: '',
+            sex: '1',
+            age: '',
+            number: '',
+            class: '1',
+            state: '1',
+            address: '',
+            phone: '',
+        }
       },
-
       // 确定新增
       sure(form) {
         // 对表单进行验证
         this.$refs[form].validate((valid) =>{
           if(valid){
-            // 调用添加接口
-            // 假后端,让新增的信息显示在表格中
-            // this.tableData.push(this.form)
+            // 如果用户输入信息没有违反规则，则执行以下命令
+
+                  // 假后端,让新增的信息显示在表格中
+                  // this.tableData.push(this.form)
+
+            // 判断state是true还是false
             if(this.state){
+              // 如果state为true，则表示使用的新增功能，执行以下代码
               // 调用添加接口
               this.service.post('/students', this.form)
               .then(res => {
@@ -311,7 +327,9 @@
                   this.addStu = false
                   // 对整个表单进行重置
                   this.$refs[form].resetFields()
+                  // 弹出新增成功的消息
                   this.$message({message: '新增数据成功',type: 'success',duration: 1500});
+                  // 调用getData()方法，再次重新加载表格
                   this.getData()
                 }
               })
@@ -319,16 +337,18 @@
                 console.error(err)
               })
             }else{
+              // 如果state为false，则表示使用的修改功能，执行以下代码
               // 调用修改接口
               // 删除创建时间
               // delete this.form.createdDate
               // 删除最后修改时间
               // delete this.form,lastModifiedDate
-              console.log(this.form.id)
+              // console.log(this.form.id)
               
               this.service.patch('/students/' + this.form.id,this.form)
               .then(res => {
                 this.addStu = false
+                // 弹出新增成功的消息
                 this.$message({message: '修改数据成功',type: 'success',duration: 1500});
                 this.getData()
               })

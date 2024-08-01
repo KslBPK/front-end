@@ -14,7 +14,7 @@
         :current-page="currentPage"
         :page-size="pageSize"
         :page-sizes="[5, 10, 20, 30]"
-        >
+        :url="url">
         </el-pagination>
     </div>
 </template>
@@ -23,7 +23,8 @@ import {getData} from '../../api/api'
 export default {
     props: {
         "total": Number,
-        "callback": Function
+        "callback": Function,
+        "url": String
     },
     data(){
         return {
@@ -42,13 +43,13 @@ export default {
         // console.log(val)
         this.pageSize =val
         this.currentPage = 1
-        getData(this.$parent, '/attends', {offset: (this.currentPage - 1), limit: val})
+        getData(this.$parent, url, {offset: (this.currentPage - 1), limit: val})
       },
       // 获取当前页面页数的参数
       hanldCurrentChange(val){
         // // console.log(val)
         this.currentPage = val
-        getData(this.$parent, '/attends', {offset: (val - 1) * this.pageSize, limit: this.pageSize})
+        getData(this.$parent, url, {offset: (val - 1) * this.pageSize, limit: this.pageSize})
       },
     }
 }

@@ -20,12 +20,15 @@
         <el-table-column prop="toBeDue" label="应到课" align="center"></el-table-column>
       </el-table>
       <!-- 分页 -->
-      <Pageing :total="total"></Pageing>
+      <Pageing :total="total" :url="url"></Pageing>
     </div>
   </template>
   
   <script>
+  import url from 'postcss-url';
+  
   import {getData} from '../../api/api'
+
   import Pageing from '../common/Pageing.vue';
   export default {
     components: {
@@ -39,6 +42,7 @@
             attendName: "",
         },
         total: 0,
+        url: '/attends'
       }
     },
 
